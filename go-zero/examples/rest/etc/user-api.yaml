@@ -1,0 +1,33 @@
+Name: user.api
+Host: 0.0.0.0
+Port: 8080
+Timeout: 2000
+CpuThreshold: 900
+MaxBytes: 1048576
+Verbose: false
+Log:
+  Mode: console     # 线上可改 file
+  Encoding: json
+  Level: info
+Telemetry:
+  Endpoint: ""      # OTLP/Zipkin 地址，留空则不开启
+  Batcher: otlp
+  Sampler: 1.0      # 上线按流量调低
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9091
+  Path: /metrics
+Auth:
+  AccessSecret: ${ACCESS_SECRET}   # 从环境注入
+  AccessExpire: 86400
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass: ${REDIS_PASS}
+Mysql:
+  DataSource: ${MYSQL_DSN}
+  MaxOpenConns: 80
+  MaxIdleConns: 20
+  ConnMaxLifetime: 3600
+  ConnMaxIdleTime: 600
+# 如需 KQ/Etcd/CacheRedis 等，按需追加节

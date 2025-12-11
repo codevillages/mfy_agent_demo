@@ -1,0 +1,11 @@
+# 常见坑 / FAQ
+- 高：忘记 `WithContext` 或无超时导致连接泄漏—所有查询/写入必须 `WithContext(ctx)` 并设置 `context.WithTimeout`。
+- 高：无 where 更新/删除—严格代码评审，启用 `db = db.Where("1=0")` 防御模式不可取；应在仓储层封装必须有条件的 API。
+- 高：事务中调用外部服务导致长事务—事务内只做 DB 操作。
+- 中：`Save` 误用导致零值覆盖—需使用 `Select` 或 `Updates` 显式字段。
+- 中：`ErrRecordNotFound` 当错误处理—应判等于该错误分支处理未命中。
+- 中：AutoMigrate 在生产误执行—必须加开关与审批。
+- 中：时区/loc 未设置导致时间偏移—DSN 必带 `parseTime=True&loc=Local`（或指定时区）。
+- 中：预加载默认取全字段导致大查询—`Preload` 时用 `Select` 控制字段。
+- 低：未设置连接池参数—导致无限增长或复用不足；必须在初始化时设置。
+- 低：忽略 `RowsAffected`—更新/删除未生效而不自知，需检查。

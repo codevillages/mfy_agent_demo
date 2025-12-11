@@ -1,0 +1,31 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8081
+Timeout: 2000
+CpuThreshold: 900
+StrictControl: true
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: user.rpc
+Log:
+  Mode: console
+  Encoding: json
+  Level: info
+Telemetry:
+  Endpoint: ""      # 留空关闭 trace
+  Batcher: otlp
+  Sampler: 1.0
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass: ${REDIS_PASS}
+Mysql:
+  DataSource: ${MYSQL_DSN}
+  MaxOpenConns: 80
+  MaxIdleConns: 20
+  ConnMaxLifetime: 3600
+  ConnMaxIdleTime: 600
+TargetRpc:
+  Endpoints:
+    - 127.0.0.1:8082   # 调用其他 RPC 服务时使用
+  Timeout: 1000
